@@ -16,7 +16,6 @@ int il=7;
 int is=6;
 int ph;
 int pl;
-char ctrlKey = KEY_LEFT_CTRL;
 int nowc = 3;
 unsigned long lasttime;
 
