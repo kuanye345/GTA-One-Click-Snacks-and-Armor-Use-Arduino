@@ -1,11 +1,11 @@
 #include "Keyboard.h"
 #include <EEPROM.h>
-int dmwriltime = 65;   //菜单中切换选项时间
-int dmwriltime2 = 85;  //切换不同菜单时间
-int dmwriltime3 = 150; //吃零食护甲时间
-int dmwriltime1 = 10;  //按下按键时间
+int dmwriltime = 60;   //菜单中切换选项时间
+int dmwriltime2 = 70;  //切换不同菜单时间
+int dmwriltime3 = 120; //吃零食护甲时间
+int dmwriltime1 = 20;  //按下按键时间
 int cltime = 500;      //关闭菜单后至少等待多久再打开菜单
-int rmin = 0, rmax=10; //随机时间范围
+int rmin = 0, rmax=5; //随机时间范围
 boolean lasth;
 boolean lastl;
 boolean lasts;
@@ -98,12 +98,12 @@ void readinput() {
   }
 }
 
-void dmwril(long dtime) { //DelayMsWitRreadInput Long
+void dmwril(long dtime) { //DelayMsWithReadInput Long
   long stime=dtime;
   while(stime>10)
   {
     readinput();
-    delayMicroseconds(10000);
+    delayMicroseconds(10000-120);
     stime=stime-10;
   }
   if(stime>0)
@@ -131,9 +131,10 @@ void hujia() {
     anjian(KEY_RETURN,dmwriltime3);
     ph=ph-1;
   }
-  anjian(KEY_ESC,dmwriltime2);
-  anjian(KEY_ESC,dmwriltime2);
-  anjian(KEY_ESC,dmwriltime2);
+  anjian(KEY_BACKSPACE,dmwriltime2);
+  anjian(KEY_BACKSPACE,dmwriltime2);
+  anjian(KEY_BACKSPACE,dmwriltime2);
+  anjian(KEY_BACKSPACE,dmwriltime2);
 }
 
 void anjian(char jian,int yanshi) {
@@ -159,7 +160,8 @@ void lingshi() {
     anjian(KEY_RETURN,dmwriltime3);
     pl=pl-1;
   }
-  anjian(KEY_ESC,dmwriltime2);
-  anjian(KEY_ESC,dmwriltime2);
-  anjian(KEY_ESC,dmwriltime2);
+  anjian(KEY_BACKSPACE,dmwriltime2);
+  anjian(KEY_BACKSPACE,dmwriltime2);
+  anjian(KEY_BACKSPACE,dmwriltime2);
+  anjian(KEY_BACKSPACE,dmwriltime2);
 }
