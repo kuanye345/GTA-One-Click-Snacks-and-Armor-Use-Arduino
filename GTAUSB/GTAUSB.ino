@@ -1,4 +1,5 @@
-#include "Keyboard.h"
+#include "Mouse.h"
+#include <Keyboard.h>
 #include <EEPROM.h>
 int dmwriltime = 60;   //菜单中切换选项时间
 int dmwriltime2 = 70;  //切换不同菜单时间
@@ -18,9 +19,12 @@ int ph;
 int pl;
 int nowc = 3;
 unsigned long lasttime;
+unsigned long sanjian;
+int sshijian = 250;
 
 void setup() {
   Keyboard.begin();
+  Mouse.begin();
   pinMode(ih, INPUT_PULLUP);
   pinMode(il, INPUT_PULLUP);
   pinMode(is, INPUT_PULLUP);
@@ -32,6 +36,15 @@ void setup() {
 
 void loop() {
   readinput();
+  /*
+  if(millis()-sanjian>sshijian && nowc==4)
+  {
+    sanjian=millis();
+    sshijian=random(100,250);
+    Mouse.press(MOUSE_LEFT);
+    delay(random(10,50));
+    Mouse.release(MOUSE_LEFT);
+  }*/
   if(ph>0 && millis()-lasttime>cltime)
   {
     hujia();
@@ -63,16 +76,35 @@ void readinput() {
   }
   if(lasth==false&&nowh==true)
   {
-    ph++;
+    if(nowc==5)
+    {
+      guanbia();
+    } else
+    {
+      ph++;
+    }
+  }
+  if(lasth==true&&nowh==false)
+  {
+    if(nowc==5)
+    {
+      guanbib();
+    }
   }
   if(lastl==false&&nowl==true)
   {
-    pl++;
+    if(nowc==5)
+    {
+      guanbiold();
+    } else
+    {
+      pl++;
+    }
   }
   if(lasts==false&&nows==true)
   {
     nowc++;
-    if(nowc>=5)
+    if(nowc>=6)
     {
       nowc=2;
     }
@@ -96,6 +128,11 @@ void readinput() {
     digitalWrite(led0,HIGH);
     digitalWrite(led1,HIGH);
   }
+  if(nowc==5)
+  {
+    digitalWrite(led0,LOW);
+    digitalWrite(led1,LOW);
+  }
 }
 
 void dmwril(long dtime) { //DelayMsWithReadInput Long
@@ -110,6 +147,20 @@ void dmwril(long dtime) { //DelayMsWithReadInput Long
   {
     delay(stime);
   }
+}
+
+void guanbiold() {
+  Keyboard.press(KEY_LEFT_ALT);
+  Keyboard.press(KEY_F4);
+  Keyboard.releaseAll();
+}
+void guanbia() {
+  Keyboard.press(KEY_LEFT_ALT);
+}
+void guanbib() {
+  Mouse.move(0,500,0);
+  delay(20);
+  Keyboard.releaseAll();
 }
 
 void hujia() {
